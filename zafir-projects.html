@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Projects — Zafir Ali</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0a0a0f;
+    --surface: #12121a;
+    --surface2: #1a1a28;
+    --border: rgba(255,255,255,0.08);
+    --border-hover: rgba(255,255,255,0.18);
+    --text: #f0ede8;
+    --muted: rgba(240,237,232,0.5);
+    --accent: #c8a96e;
+    --accent2: #7b8fd4;
+    --accent3: #6ec8a9;
+    --serif: 'DM Serif Display', serif;
+    --sans: 'Outfit', sans-serif;
+    --mono: 'DM Mono', monospace;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    font-weight: 300;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.5;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.25rem 3rem;
+    border-bottom: 1px solid var(--border);
+    background: rgba(10,10,15,0.85);
+    backdrop-filter: blur(20px);
+  }
+
+  .nav-logo {
+    font-family: var(--serif);
+    font-size: 1.4rem;
+    color: var(--text);
+    text-decoration: none;
+    letter-spacing: -0.02em;
+  }
+  .nav-logo span { color: var(--accent); }
+
+  .nav-links {
+    display: flex;
+    gap: 2.5rem;
+    list-style: none;
+  }
+  .nav-links a {
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover, .nav-links a.active { color: var(--text); }
+
+  /* ── PAGE HEADER ── */
+  .page-header {
+    padding: 9rem 3rem 4rem;
+    max-width: 1100px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .page-header-bg {
+    position: fixed;
+    top: -150px; right: -200px;
+    width: 700px; height: 700px;
+    background: rgba(123,143,212,0.07);
+    border-radius: 50%;
+    filter: blur(130px);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .section-label {
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1rem;
+  }
+
+  .page-header h1 {
+    font-family: var(--serif);
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    margin-bottom: 1rem;
+  }
+
+  .page-header h1 em { font-style: italic; color: var(--accent); }
+
+  .page-header p {
+    color: var(--muted);
+    font-size: 1rem;
+    max-width: 500px;
+  }
+
+  /* ── FILTER BAR ── */
+  .filter-bar {
+    max-width: 1100px;
+    margin: 2.5rem auto 0;
+    padding: 0 3rem;
+    display: flex;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+    position: relative;
+    z-index: 1;
+  }
+
+  .filter-btn {
+    padding: 0.45rem 1.1rem;
+    border-radius: 100px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--muted);
+    font-family: var(--sans);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .filter-btn:hover { border-color: var(--border-hover); color: var(--text); }
+  .filter-btn.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #0a0a0f;
+  }
+
+  /* ── PROJECTS GRID ── */
+  .projects-grid {
+    max-width: 1100px;
+    margin: 3rem auto 6rem;
+    padding: 0 3rem;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ── PROJECT CARD ── */
+  .project-card {
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    background: var(--surface);
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    display: flex;
+    flex-direction: column;
+  }
+  .project-card:hover {
+    border-color: var(--border-hover);
+    transform: translateY(-4px);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+  }
+
+  .project-card.wide {
+    grid-column: span 2;
+    flex-direction: row;
+    align-items: stretch;
+  }
+
+  /* thumbnail */
+  .card-thumb {
+    width: 100%;
+    height: 220px;
+    overflow: hidden;
+    background: var(--surface2);
+    position: relative;
+    flex-shrink: 0;
+  }
+  .project-card.wide .card-thumb {
+    width: 42%;
+    height: auto;
+    min-height: 260px;
+  }
+
+  .card-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    transition: transform 0.4s ease;
+    filter: brightness(0.92);
+  }
+  .project-card:hover .card-thumb img { transform: scale(1.04); filter: brightness(1); }
+
+  .card-thumb-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, transparent 50%, rgba(10,10,15,0.5) 100%);
+  }
+
+  /* body */
+  .card-body {
+    padding: 1.75rem;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+
+  .card-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .card-badge {
+    font-size: 0.68rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    padding: 0.28rem 0.7rem;
+    border-radius: 100px;
+  }
+  .badge-mech { background: rgba(200,169,110,0.15); color: var(--accent); border: 1px solid rgba(200,169,110,0.3); }
+  .badge-work { background: rgba(110,200,169,0.15); color: var(--accent3); border: 1px solid rgba(110,200,169,0.3); }
+  .badge-class { background: rgba(123,143,212,0.15); color: var(--accent2); border: 1px solid rgba(123,143,212,0.3); }
+
+  .card-date {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    color: var(--muted);
+    letter-spacing: 0.06em;
+  }
+
+  .card-body h2 {
+    font-size: 1.15rem;
+    font-weight: 500;
+    line-height: 1.3;
+    margin-bottom: 0.75rem;
+  }
+
+  .card-body p {
+    font-size: 0.875rem;
+    color: var(--muted);
+    line-height: 1.7;
+    flex: 1;
+  }
+
+  .card-expand-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-top: 1.25rem;
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    color: var(--accent);
+    text-transform: uppercase;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    font-family: var(--sans);
+    transition: gap 0.2s;
+  }
+  .card-expand-btn:hover { gap: 0.7rem; }
+
+  /* ── LIGHTBOX / MODAL ── */
+  .lightbox {
+    position: fixed;
+    inset: 0;
+    z-index: 999;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    overflow-y: auto;
+    padding: 2rem 1rem;
+  }
+  .lightbox.open {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  .lightbox-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(5,5,10,0.92);
+    backdrop-filter: blur(12px);
+    cursor: pointer;
+  }
+
+  .lightbox-panel {
+    position: relative;
+    z-index: 1;
+    background: var(--surface);
+    border: 1px solid var(--border-hover);
+    border-radius: 16px;
+    width: 100%;
+    max-width: 860px;
+    margin: auto;
+    overflow: hidden;
+    transform: translateY(20px);
+    transition: transform 0.3s ease;
+  }
+  .lightbox.open .lightbox-panel { transform: none; }
+
+  .lightbox-close {
+    position: absolute;
+    top: 1.25rem; right: 1.25rem;
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    border: 1px solid var(--border-hover);
+    background: var(--surface2);
+    color: var(--muted);
+    font-size: 1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+    transition: all 0.2s;
+  }
+  .lightbox-close:hover { color: var(--text); border-color: var(--text); }
+
+  /* image gallery inside lightbox */
+  .lb-gallery {
+    width: 100%;
+    background: var(--surface2);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .lb-main-img {
+    width: 100%;
+    height: 440px;
+    object-fit: contain;
+    object-position: center;
+    background: #0d0d14;
+    display: block;
+    cursor: pointer;
+  }
+
+  .lb-thumbs {
+    display: flex;
+    gap: 4px;
+    padding: 6px;
+    background: #0d0d14;
+    overflow-x: auto;
+    scrollbar-width: thin;
+  }
+  .lb-thumb {
+    flex-shrink: 0;
+    width: 72px;
+    height: 52px;
+    border-radius: 4px;
+    overflow: hidden;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: border-color 0.15s;
+  }
+  .lb-thumb.active { border-color: var(--accent); }
+  .lb-thumb img { width: 100%; height: 100%; object-fit: cover; }
+
+  .lb-body {
+    padding: 2rem 2.25rem 2.5rem;
+  }
+
+  .lb-meta {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+    margin-bottom: 1.25rem;
+    flex-wrap: wrap;
+  }
+
+  .lb-body h2 {
+    font-family: var(--serif);
+    font-size: 1.8rem;
+    letter-spacing: -0.02em;
+    margin-bottom: 1rem;
+  }
+
+  .lb-body p {
+    color: var(--muted);
+    font-size: 0.95rem;
+    line-height: 1.8;
+  }
+
+  .lb-details {
+    display: flex;
+    gap: 2rem;
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+    flex-wrap: wrap;
+  }
+  .lb-detail-item {}
+  .lb-detail-label {
+    font-size: 0.68rem;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.25rem;
+  }
+  .lb-detail-val {
+    font-size: 0.9rem;
+    color: var(--text);
+    font-weight: 400;
+  }
+
+  /* ── REVEAL ── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .reveal.visible { opacity: 1; transform: none; }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 2rem 3rem;
+    text-align: center;
+    font-size: 0.8rem;
+    color: var(--muted);
+    position: relative;
+    z-index: 1;
+  }
+  footer a { color: var(--muted); text-decoration: none; }
+  footer a:hover { color: var(--text); }
+
+  /* ── MOBILE ── */
+  @media (max-width: 768px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { gap: 1.5rem; }
+    .nav-links a { font-size: 0.7rem; }
+    .page-header { padding: 7rem 1.5rem 3rem; }
+    .filter-bar { padding: 0 1.5rem; }
+    .projects-grid { grid-template-columns: 1fr; padding: 0 1.5rem; }
+    .project-card.wide { flex-direction: column; grid-column: span 1; }
+    .project-card.wide .card-thumb { width: 100%; height: 220px; }
+    .lb-main-img { height: 240px; }
+    .lb-body { padding: 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page-header-bg"></div>
+
+<!-- NAV -->
+<nav>
+  <a href="zafir-portfolio.html" class="nav-logo">Z<span>.</span>Ali</a>
+  <ul class="nav-links">
+    <li><a href="zafir-portfolio.html#about">About</a></li>
+    <li><a href="zafir-portfolio.html#skills">Skills</a></li>
+    <li><a href="zafir-projects.html" class="active">Projects</a></li>
+    <li><a href="zafir-portfolio.html#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- PAGE HEADER -->
+<div class="page-header">
+  <p class="section-label">Portfolio</p>
+  <h1>CAD, Design &<br><em>Engineering</em> Work.</h1>
+  <p>A collection of projects from coursework, internships, and real-world engineering work — all modeled, prototyped, or designed by hand.</p>
+</div>
+
+<!-- FILTER BAR -->
+<div class="filter-bar">
+  <button class="filter-btn active" data-filter="all">All Projects</button>
+  <button class="filter-btn" data-filter="classwork">Classwork</button>
+  <button class="filter-btn" data-filter="engineering">Engineering Work</button>
+</div>
+
+<!-- PROJECTS GRID -->
+<div class="projects-grid" id="projectsGrid">
+
+  <!-- 1. ME430 Final Project — wide card -->
+  <div class="project-card wide reveal" data-category="classwork">
+    <div class="card-thumb">
+      <img
+        src="https://static.wixstatic.com/media/4666bb_57516e73d7394f509316e73f1b653189~mv2.png/v1/fit/w_1220,h_787,q_90,enc_avif,quality_auto/4666bb_57516e73d7394f509316e73f1b653189~mv2.png"
+        alt="ME430 Final Project - Swing Table Assembly"
+        loading="lazy"
+      >
+      <div class="card-thumb-overlay"></div>
+    </div>
+    <div class="card-body">
+      <div class="card-meta">
+        <span class="card-badge badge-class">Classwork</span>
+        <span class="card-date">Dec 2024 · Newark, NJ</span>
+      </div>
+      <h2>ME430 Final Project — Swing Table Assembly</h2>
+      <p>The capstone CAD project for ME430 Intro to Computer Aided Design. Starting from minimal design intent, each component of a swing table assembly was individually modeled and then assembled with fully defined constraints — testing both part modeling and assembly management skills.</p>
+      <button class="card-expand-btn" onclick="openModal('me430final')">View Gallery →</button>
+    </div>
+  </div>
+
+  <!-- 2. ME430 Midterm -->
+  <div class="project-card reveal" data-category="classwork">
+    <div class="card-thumb">
+      <img
+        src="https://static.wixstatic.com/media/4666bb_74d57b6295f04e49b90694c87c25d8d1~mv2.png/v1/fit/w_1440,h_1142,q_90,enc_avif,quality_auto/4666bb_74d57b6295f04e49b90694c87c25d8d1~mv2.png"
+        alt="ME430 Midterm - USB-C Board Case"
+        loading="lazy"
+      >
+      <div class="card-thumb-overlay"></div>
+    </div>
+    <div class="card-body">
+      <div class="card-meta">
+        <span class="card-badge badge-class">Classwork</span>
+        <span class="card-date">Oct 2024 · Newark, NJ</span>
+      </div>
+      <h2>ME430 Midterm — USB-C Board Enclosure</h2>
+      <p>Self-directed midterm project for ME430 CAD. Chose to design something practical: a custom enclosure for a USB-C to USB-C board. Modeled the main body, access hatch, and exploded assembly view.</p>
+      <button class="card-expand-btn" onclick="openModal('me430mid')">View Gallery →</button>
+    </div>
+  </div>
+
+  <!-- 3. SolidProfessor -->
+  <div class="project-card reveal" data-category="classwork">
+    <div class="card-thumb">
+      <img
+        src="https://static.wixstatic.com/media/4666bb_cc535defe8d2411d9c26f64000ca136e~mv2.png/v1/fit/w_1158,h_1130,q_90,enc_avif,quality_auto/4666bb_cc535defe8d2411d9c26f64000ca136e~mv2.png"
+        alt="SolidProfessor Assignments"
+        loading="lazy"
+      >
+      <div class="card-thumb-overlay"></div>
+    </div>
+    <div class="card-body">
+      <div class="card-meta">
+        <span class="card-badge badge-class">Classwork</span>
+        <span class="card-date">Nov 2024 · Newark, NJ</span>
+      </div>
+      <h2>SolidProfessor CAD Assignments — ME430</h2>
+      <p>As part of the ME430 curriculum, completed a series of guided SolidProfessor modeling exercises — building proficiency across standard, front, top, right, and isometric views for a variety of part geometries.</p>
+      <button class="card-expand-btn" onclick="openModal('solidprof')">View Gallery →</button>
+    </div>
+  </div>
+
+  <!-- 4. Box Lighting — wide card -->
+  <div class="project-card wide reveal" data-category="engineering">
+    <div class="card-thumb">
+      <img
+        src="https://static.wixstatic.com/media/4666bb_13ffdbfbb7c44bc0a3b83de7291fc514~mv2.png/v1/fit/w_1362,h_1262,q_90,enc_avif,quality_auto/4666bb_13ffdbfbb7c44bc0a3b83de7291fc514~mv2.png"
+        alt="Box Lighting Assembly"
+        loading="lazy"
+      >
+      <div class="card-thumb-overlay"></div>
+    </div>
+    <div class="card-body">
+      <div class="card-meta">
+        <span class="card-badge badge-work">Engineering Work</span>
+        <span class="card-date">Jul 2024 · Woodridge, NJ</span>
+      </div>
+      <h2>Box Lighting — 3D Model from 2D CAD</h2>
+      <p>Converted existing 2D CAD drawings into full 3D models for commercial box lighting fixtures at Starfire Lighting. Produced exploded assembly views for 2-inch, 3-inch, and 4-inch variants, including light mount and structural components, directly from production documentation.</p>
+      <button class="card-expand-btn" onclick="openModal('boxlight')">View Gallery →</button>
+    </div>
+  </div>
+
+  <!-- 5. Interior Curve Fixture -->
+  <div class="project-card reveal" data-category="engineering">
+    <div class="card-thumb">
+      <img
+        src="https://static.wixstatic.com/media/4666bb_e752cdee85e148529827ca9c95041ab6~mv2.png/v1/fit/w_1440,h_1025,q_90,enc_avif,quality_auto/4666bb_e752cdee85e148529827ca9c95041ab6~mv2.png"
+        alt="Interior Curve Fixture"
+        loading="lazy"
+      >
+      <div class="card-thumb-overlay"></div>
+    </div>
+    <div class="card-body">
+      <div class="card-meta">
+        <span class="card-badge badge-work">Engineering Work</span>
+        <span class="card-date">Jul 2024 · Woodridge, NJ</span>
+      </div>
+      <h2>Interior Curve Fixture — 90° Wall Mount</h2>
+      <p>Designed a lighting fixture for placement along a 90-degree curved wall. Model includes support bracket, LED mount, and a cross-section assembly view to verify internal geometry and clearances.</p>
+      <button class="card-expand-btn" onclick="openModal('curve')">View Gallery →</button>
+    </div>
+  </div>
+
+  <!-- 6. 48×12 Rectangular Fixture -->
+  <div class="project-card reveal" data-category="engineering">
+    <div class="card-thumb">
+      <img
+        src="https://static.wixstatic.com/media/4666bb_ada7c4a84fe94d999cbd92709bfe71d4~mv2.png/v1/fit/w_1440,h_728,q_90,enc_avif,quality_auto/4666bb_ada7c4a84fe94d999cbd92709bfe71d4~mv2.png"
+        alt="48x12 Rectangular Fixture"
+        loading="lazy"
+      >
+      <div class="card-thumb-overlay"></div>
+    </div>
+    <div class="card-body">
+      <div class="card-meta">
+        <span class="card-badge badge-work">Engineering Work</span>
+        <span class="card-date">Jul 2024 · Woodridge, NJ</span>
+      </div>
+      <h2>48 × 12" Rectangular Lighting Fixture</h2>
+      <p>An original fixture prototype at Starfire Lighting — not a recreation of an existing product. Individually prototyped all parts: endcap, trim mount, sectional assembly, and full 48-inch main assembly with exploded and cross-section documentation views.</p>
+      <button class="card-expand-btn" onclick="openModal('rect48')">View Gallery →</button>
+    </div>
+  </div>
+
+  <!-- 7. FED Project — wide card -->
+  <div class="project-card wide reveal" data-category="classwork">
+    <div class="card-thumb">
+      <img
+        src="https://static.wixstatic.com/media/4666bb_167703cbbdf544d1832cc839213d3f09~mv2.png/v1/fit/w_1068,h_880,q_90,enc_avif,quality_auto/4666bb_167703cbbdf544d1832cc839213d3f09~mv2.png"
+        alt="FED Project - Tower Fan Reverse Engineering"
+        loading="lazy"
+      >
+      <div class="card-thumb-overlay"></div>
+    </div>
+    <div class="card-body">
+      <div class="card-meta">
+        <span class="card-badge badge-class">Reverse Engineering</span>
+        <span class="card-date">Dec 2022 · NJIT, Newark NJ</span>
+      </div>
+      <h2>FED Project — Honeywell Tower Fan Reverse Engineering</h2>
+      <p>First engineering design project at NJIT, completed as a team. Disassembled a Honeywell QuietSet tower fan to take measurements, then individually modeled key components — front cover, rear cover, fan mount — and produced full assembly and part drawings. An introduction to the complete engineering design process.</p>
+      <button class="card-expand-btn" onclick="openModal('fed')">View Gallery →</button>
+    </div>
+  </div>
+
+</div>
+
+<!-- ── LIGHTBOX MODAL ── -->
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true">
+  <div class="lightbox-backdrop" onclick="closeModal()"></div>
+  <div class="lightbox-panel">
+    <button class="lightbox-close" onclick="closeModal()" aria-label="Close">✕</button>
+    <div class="lb-gallery">
+      <img class="lb-main-img" id="lbMainImg" src="" alt="">
+      <div class="lb-thumbs" id="lbThumbs"></div>
+    </div>
+    <div class="lb-body">
+      <div class="lb-meta" id="lbMeta"></div>
+      <h2 id="lbTitle"></h2>
+      <p id="lbDesc"></p>
+      <div class="lb-details" id="lbDetails"></div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2026 Zafir Ali · B.S. Mechanical Engineering @ NJIT · <a href="https://www.linkedin.com/in/zafirali/" target="_blank">LinkedIn</a> · <a href="zafir-portfolio.html">← Back to Portfolio</a></p>
+</footer>
+
+<script>
+  // ── PROJECT DATA ──
+  const projects = {
+    me430final: {
+      title: 'ME430 Final Project — Swing Table Assembly',
+      badge: '<span class="card-badge badge-class">Classwork</span>',
+      date: 'December 2024',
+      location: 'Newark, New Jersey',
+      type: 'Engineering Project',
+      desc: 'The capstone project for ME430 (Intro to Computer Aided Design). Starting from minimal design intent, each component was individually modeled then assembled with fully defined constraints. The project tested the full CAD workflow: part creation, multi-body assembly, constraint management, and engineering drawing production including an exploded view.',
+      images: [
+        { src: 'https://static.wixstatic.com/media/4666bb_57516e73d7394f509316e73f1b653189~mv2.png/v1/fit/w_1220,h_787,q_90,enc_avif,quality_auto/4666bb_57516e73d7394f509316e73f1b653189~mv2.png', alt: 'Swing Table Assembly drawing' },
+        { src: 'https://static.wixstatic.com/media/4666bb_a296b2598be9481ea98b45b1d86120db~mv2.png/v1/fit/w_1221,h_623,q_90,enc_avif,quality_auto/4666bb_a296b2598be9481ea98b45b1d86120db~mv2.png', alt: 'Full assembly' },
+        { src: 'https://static.wixstatic.com/media/4666bb_5df83c33859a4ac1a957d2b4ab0240a2~mv2.png/v1/fit/w_896,h_576,q_90,enc_avif,quality_auto/4666bb_5df83c33859a4ac1a957d2b4ab0240a2~mv2.png', alt: 'Original drawing' },
+        { src: 'https://static.wixstatic.com/media/4666bb_49c2d41a4b564e549743a623699e161c~mv2.png/v1/fit/w_1221,h_789,q_90,enc_avif,quality_auto/4666bb_49c2d41a4b564e549743a623699e161c~mv2.png', alt: 'Base drawing' },
+        { src: 'https://static.wixstatic.com/media/4666bb_e10385a5e828485cb09d7648e03e4d6f~mv2.png/v1/fit/w_1220,h_787,q_90,enc_avif,quality_auto/4666bb_e10385a5e828485cb09d7648e03e4d6f~mv2.png', alt: 'Trunnion Stud drawing' },
+        { src: 'https://static.wixstatic.com/media/4666bb_ff0e2b16362545c9be27008746ba405c~mv2.png/v1/fit/w_1225,h_783,q_90,enc_avif,quality_auto/4666bb_ff0e2b16362545c9be27008746ba405c~mv2.png', alt: 'Table drawing' },
+        { src: 'https://static.wixstatic.com/media/4666bb_a2b12107aa4a4f6084e711e833d189da~mv2.png/v1/fit/w_1219,h_790,q_90,enc_avif,quality_auto/4666bb_a2b12107aa4a4f6084e711e833d189da~mv2.png', alt: 'Exploded view drawing' },
+      ]
+    },
+    me430mid: {
+      title: 'ME430 Midterm — USB-C Board Enclosure',
+      badge: '<span class="card-badge badge-class">Classwork</span>',
+      date: 'October 2024',
+      location: 'Newark, NJ',
+      type: 'Class Work',
+      desc: 'Self-directed midterm project for ME430 CAD. The assignment required creating an original design — Zafir chose to build something practical: a protective enclosure for a USB-C to USB-C board. Includes a main body, hinged access hatch, and a full exploded view showing how all parts fit together.',
+      images: [
+        { src: 'https://static.wixstatic.com/media/4666bb_74d57b6295f04e49b90694c87c25d8d1~mv2.png/v1/fit/w_1440,h_1142,q_90,enc_avif,quality_auto/4666bb_74d57b6295f04e49b90694c87c25d8d1~mv2.png', alt: 'Exploded view' },
+        { src: 'https://static.wixstatic.com/media/4666bb_20213db9ef9b4f10a3b7dd5375388991~mv2.png/v1/fit/w_1440,h_735,q_90,enc_avif,quality_auto/4666bb_20213db9ef9b4f10a3b7dd5375388991~mv2.png', alt: 'Assembly overview' },
+        { src: 'https://static.wixstatic.com/media/4666bb_bdac1097366f4e499a1ceac05ea03209~mv2.jpg/v1/fit/w_536,h_323,q_90,enc_avif,quality_auto/4666bb_bdac1097366f4e499a1ceac05ea03209~mv2.jpg', alt: 'Access hatch' },
+        { src: 'https://static.wixstatic.com/media/4666bb_ef65113f9f2041fdabd75c34e9f86805~mv2.jpg/v1/fit/w_1017,h_712,q_90,enc_avif,quality_auto/4666bb_ef65113f9f2041fdabd75c34e9f86805~mv2.jpg', alt: 'Main body' },
+      ]
+    },
+    solidprof: {
+      title: 'SolidProfessor CAD Assignments — ME430',
+      badge: '<span class="card-badge badge-class">Classwork</span>',
+      date: 'November 2024',
+      location: 'Newark, NJ',
+      type: 'Classwork',
+      desc: 'As part of ME430, completed a series of guided SolidProfessor 3D modeling exercises. Each exercise required producing accurate front, top, right, and isometric views of increasingly complex part geometries — building the fundamental CAD skills underpinning all other design work.',
+      images: [
+        { src: 'https://static.wixstatic.com/media/4666bb_1477c6ac509d457fb5c247dfd42d586d~mv2.png/v1/fit/w_1440,h_998,q_90,enc_avif,quality_auto/4666bb_1477c6ac509d457fb5c247dfd42d586d~mv2.png', alt: 'Right view' },
+        { src: 'https://static.wixstatic.com/media/4666bb_5e61ff8786b64dda9c1c41c24f3e2607~mv2.png/v1/fit/w_1440,h_986,q_90,enc_avif,quality_auto/4666bb_5e61ff8786b64dda9c1c41c24f3e2607~mv2.png', alt: 'Front view' },
+        { src: 'https://static.wixstatic.com/media/4666bb_24748fa43ed748c5bb007582adad0e18~mv2.png/v1/fit/w_1260,h_1120,q_90,enc_avif,quality_auto/4666bb_24748fa43ed748c5bb007582adad0e18~mv2.png', alt: 'Top view' },
+        { src: 'https://static.wixstatic.com/media/4666bb_cc535defe8d2411d9c26f64000ca136e~mv2.png/v1/fit/w_1158,h_1130,q_90,enc_avif,quality_auto/4666bb_cc535defe8d2411d9c26f64000ca136e~mv2.png', alt: 'Isometric view' },
+        { src: 'https://static.wixstatic.com/media/4666bb_c06504119b664b6083cd33ab347a50b5~mv2.png/v1/fit/w_1440,h_1230,q_90,enc_avif,quality_auto/4666bb_c06504119b664b6083cd33ab347a50b5~mv2.png', alt: 'Front view 2' },
+        { src: 'https://static.wixstatic.com/media/4666bb_ddcbd133f8f4427bb77f9260945f6dc1~mv2.png/v1/fit/w_989,h_928,q_90,enc_avif,quality_auto/4666bb_ddcbd133f8f4427bb77f9260945f6dc1~mv2.png', alt: 'Isometric view 2' },
+      ]
+    },
+    boxlight: {
+      title: 'Box Lighting — 3D Models from 2D CAD',
+      badge: '<span class="card-badge badge-work">Engineering Work</span>',
+      date: 'July 2024',
+      location: 'Woodridge, NJ',
+      type: 'Engineering Work',
+      desc: 'At Starfire Lighting, converted existing 2D CAD production drawings into full 3D parametric models for commercial box lighting fixtures. Created complete assemblies for 2-inch, 3-inch, and 4-inch variants — each including exploded views, light mount geometry, and structural components to support manufacturing and documentation needs.',
+      images: [
+        { src: 'https://static.wixstatic.com/media/4666bb_05722a156e224078961f11abae874a25~mv2.png/v1/fit/w_1010,h_515,q_90,enc_avif,quality_auto/4666bb_05722a156e224078961f11abae874a25~mv2.png', alt: 'Box lighting overview' },
+        { src: 'https://static.wixstatic.com/media/4666bb_c5be15f2a8614feb8b16c6a67f09a980~mv2.png/v1/fit/w_974,h_332,q_90,enc_avif,quality_auto/4666bb_c5be15f2a8614feb8b16c6a67f09a980~mv2.png', alt: '3i drawing' },
+        { src: 'https://static.wixstatic.com/media/4666bb_3c8c6c753b3c4871b047eead6e0781f8~mv2.png/v1/fit/w_260,h_214,q_90,enc_avif,quality_auto/4666bb_3c8c6c753b3c4871b047eead6e0781f8~mv2.png', alt: 'Light mount' },
+        { src: 'https://static.wixstatic.com/media/4666bb_13ffdbfbb7c44bc0a3b83de7291fc514~mv2.png/v1/fit/w_1362,h_1262,q_90,enc_avif,quality_auto/4666bb_13ffdbfbb7c44bc0a3b83de7291fc514~mv2.png', alt: '4s main assembly exploded view' },
+        { src: 'https://static.wixstatic.com/media/4666bb_931faf1ef3934da388dd57c8c4e60145~mv2.png/v1/fit/w_1231,h_1166,q_90,enc_avif,quality_auto/4666bb_931faf1ef3934da388dd57c8c4e60145~mv2.png', alt: '4i main assembly exploded view' },
+        { src: 'https://static.wixstatic.com/media/4666bb_723e4adfcfb740a19d537c900c54571a~mv2.png/v1/fit/w_678,h_264,q_90,enc_avif,quality_auto/4666bb_723e4adfcfb740a19d537c900c54571a~mv2.png', alt: '4i drawing' },
+        { src: 'https://static.wixstatic.com/media/4666bb_5fc70c0bec294bf8bb5f32655564cccf~mv2.png/v1/fit/w_1056,h_1124,q_90,enc_avif,quality_auto/4666bb_5fc70c0bec294bf8bb5f32655564cccf~mv2.png', alt: '3i main assembly exploded view' },
+        { src: 'https://static.wixstatic.com/media/4666bb_7494b1f894464ceca3f1d1507b0a1af8~mv2.png/v1/fit/w_944,h_1116,q_90,enc_avif,quality_auto/4666bb_7494b1f894464ceca3f1d1507b0a1af8~mv2.png', alt: '2i main assembly exploded view' },
+        { src: 'https://static.wixstatic.com/media/4666bb_844d1412cf744c88918a7b4ee6a1d65f~mv2.png/v1/fit/w_1440,h_582,q_90,enc_avif,quality_auto/4666bb_844d1412cf744c88918a7b4ee6a1d65f~mv2.png', alt: '2i drawing' },
+      ]
+    },
+    curve: {
+      title: 'Interior Curve Fixture — 90° Wall Mount',
+      badge: '<span class="card-badge badge-work">Engineering Work</span>',
+      date: 'July 2024',
+      location: 'Woodridge, NJ',
+      type: 'Engineering Work',
+      desc: 'Designed a lighting fixture for placement along a 90-degree interior curved wall — a geometry not accommodated by standard rectangular or linear fixtures. The model includes a custom support bracket, LED mount channel, and a cross-section assembly view to verify internal fit and clearances before production.',
+      images: [
+        { src: 'https://static.wixstatic.com/media/4666bb_26085995a41e443fa491078520d6174b~mv2.png/v1/fit/w_1044,h_533,q_90,enc_avif,quality_auto/4666bb_26085995a41e443fa491078520d6174b~mv2.png', alt: 'Interior curve fixture overview' },
+        { src: 'https://static.wixstatic.com/media/4666bb_f301eaab877f47428ef7a99e2eee0886~mv2.png/v1/fit/w_482,h_556,q_90,enc_avif,quality_auto/4666bb_f301eaab877f47428ef7a99e2eee0886~mv2.png', alt: 'Support bracket' },
+        { src: 'https://static.wixstatic.com/media/4666bb_e752cdee85e148529827ca9c95041ab6~mv2.png/v1/fit/w_1440,h_1025,q_90,enc_avif,quality_auto/4666bb_e752cdee85e148529827ca9c95041ab6~mv2.png', alt: 'Main assembly cross view' },
+        { src: 'https://static.wixstatic.com/media/4666bb_e3827ab5c0c94a1bb445d43d23127ecc~mv2.png/v1/fit/w_1136,h_652,q_90,enc_avif,quality_auto/4666bb_e3827ab5c0c94a1bb445d43d23127ecc~mv2.png', alt: 'LED mount' },
+      ]
+    },
+    rect48: {
+      title: '48 × 12" Rectangular Lighting Fixture',
+      badge: '<span class="card-badge badge-work">Engineering Work</span>',
+      date: 'July 2024',
+      location: 'Woodridge, NJ',
+      type: 'Engineering Work — Original Prototype',
+      desc: 'An original fixture design at Starfire Lighting — not a reverse-engineered product. All individual parts were prototyped from scratch: endcap, trim mount, sectional assembly, and the full 48-inch main assembly. Documentation includes sectional exploded views and cross-section assembly views for manufacturing reference.',
+      images: [
+        { src: 'https://static.wixstatic.com/media/4666bb_c306ed81258e44c8bd19f4c18078fe6e~mv2.png/v1/fit/w_1066,h_544,q_90,enc_avif,quality_auto/4666bb_c306ed81258e44c8bd19f4c18078fe6e~mv2.png', alt: 'Rectangular fixture overview' },
+        { src: 'https://static.wixstatic.com/media/4666bb_60092f9236e34db99f14f9c01d101e8b~mv2.png/v1/fit/w_472,h_718,q_90,enc_avif,quality_auto/4666bb_60092f9236e34db99f14f9c01d101e8b~mv2.png', alt: 'Trim mount' },
+        { src: 'https://static.wixstatic.com/media/4666bb_ada7c4a84fe94d999cbd92709bfe71d4~mv2.png/v1/fit/w_1440,h_728,q_90,enc_avif,quality_auto/4666bb_ada7c4a84fe94d999cbd92709bfe71d4~mv2.png', alt: 'Sectional exploded view' },
+        { src: 'https://static.wixstatic.com/media/4666bb_0c1a98b8efe74384913a9c5e5cba6720~mv2.png/v1/fit/w_1440,h_810,q_90,enc_avif,quality_auto/4666bb_0c1a98b8efe74384913a9c5e5cba6720~mv2.png', alt: 'Sectional assembly cross view' },
+        { src: 'https://static.wixstatic.com/media/4666bb_e4c4c5de2ae84f9993c1e8fcffccd2fa~mv2.png/v1/fit/w_1440,h_1016,q_90,enc_avif,quality_auto/4666bb_e4c4c5de2ae84f9993c1e8fcffccd2fa~mv2.png', alt: 'Main assembly' },
+        { src: 'https://static.wixstatic.com/media/4666bb_2a429d4a06d54e59b0ca9c6f87ab1957~mv2.png/v1/fit/w_1311,h_970,q_90,enc_avif,quality_auto/4666bb_2a429d4a06d54e59b0ca9c6f87ab1957~mv2.png', alt: 'Endcap' },
+      ]
+    },
+    fed: {
+      title: 'FED Project — Honeywell Tower Fan Reverse Engineering',
+      badge: '<span class="card-badge badge-class">Reverse Engineering</span>',
+      date: 'December 2022',
+      location: 'NJIT, Newark NJ',
+      type: 'Group Project — First Engineering Design',
+      desc: 'The first engineering design project at NJIT, taken in the Fundamentals of Engineering Design (FED 101) course. Working as a team, we disassembled a Honeywell QuietSet tower fan, measured each component, and produced 3D models and technical drawings — including individual part drawings and a full assembly drawing. An introduction to the complete engineering design process from observation through documentation.',
+      images: [
+        { src: 'https://static.wixstatic.com/media/4666bb_26bf8413ed30432eb502c904ddae1c3b~mv2.png/v1/fit/w_857,h_500,q_90,enc_avif,quality_auto/4666bb_26bf8413ed30432eb502c904ddae1c3b~mv2.png', alt: 'Model (unexploded)' },
+        { src: 'https://static.wixstatic.com/media/4666bb_daace27f1f6442f3a0ad26dc1d9db514~mv2.png/v1/fit/w_1062,h_1004,q_90,enc_avif,quality_auto/4666bb_daace27f1f6442f3a0ad26dc1d9db514~mv2.png', alt: 'Front cover' },
+        { src: 'https://static.wixstatic.com/media/4666bb_167703cbbdf544d1832cc839213d3f09~mv2.png/v1/fit/w_1068,h_880,q_90,enc_avif,quality_auto/4666bb_167703cbbdf544d1832cc839213d3f09~mv2.png', alt: 'Model (exploded)' },
+        { src: 'https://static.wixstatic.com/media/4666bb_f6bfda39ee56463cb5d34e929c7a93b1~mv2.png/v1/fit/w_1410,h_1787,q_90,enc_avif,quality_auto/4666bb_f6bfda39ee56463cb5d34e929c7a93b1~mv2.png', alt: 'Drawing (assembly)' },
+        { src: 'https://static.wixstatic.com/media/4666bb_f483f9ff62944d01bbaa903420d61a06~mv2.png/v1/fit/w_941,h_973,q_90,enc_avif,quality_auto/4666bb_f483f9ff62944d01bbaa903420d61a06~mv2.png', alt: 'Fan mount' },
+        { src: 'https://static.wixstatic.com/media/4666bb_f7a428df5d8e42dd940db5aebf540535~mv2.png/v1/fit/w_863,h_984,q_90,enc_avif,quality_auto/4666bb_f7a428df5d8e42dd940db5aebf540535~mv2.png', alt: 'Rear cover' },
+        { src: 'https://static.wixstatic.com/media/4666bb_ea9deaa94e18454981aadea0cb92fe33~mv2.png/v1/fit/w_1393,h_1791,q_90,enc_avif,quality_auto/4666bb_ea9deaa94e18454981aadea0cb92fe33~mv2.png', alt: 'Drawing (front cover)' },
+      ]
+    }
+  };
+
+  let currentImgIdx = 0;
+  let currentImgs = [];
+
+  function openModal(id) {
+    const p = projects[id];
+    if (!p) return;
+    currentImgs = p.images;
+    currentImgIdx = 0;
+
+    document.getElementById('lbTitle').textContent = p.title;
+    document.getElementById('lbDesc').textContent = p.desc;
+    document.getElementById('lbMeta').innerHTML = p.badge + `<span class="card-date">${p.date}</span>`;
+    document.getElementById('lbDetails').innerHTML = `
+      <div class="lb-detail-item"><div class="lb-detail-label">Type</div><div class="lb-detail-val">${p.type}</div></div>
+      <div class="lb-detail-item"><div class="lb-detail-label">Date</div><div class="lb-detail-val">${p.date}</div></div>
+      <div class="lb-detail-item"><div class="lb-detail-label">Location</div><div class="lb-detail-val">${p.location}</div></div>
+    `;
+
+    setMainImg(0);
+    buildThumbs();
+
+    document.getElementById('lightbox').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    document.getElementById('lightbox').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  function setMainImg(idx) {
+    currentImgIdx = idx;
+    const img = document.getElementById('lbMainImg');
+    img.src = currentImgs[idx].src;
+    img.alt = currentImgs[idx].alt;
+    document.querySelectorAll('.lb-thumb').forEach((t, i) => {
+      t.classList.toggle('active', i === idx);
+    });
+  }
+
+  function buildThumbs() {
+    const container = document.getElementById('lbThumbs');
+    container.innerHTML = currentImgs.map((img, i) =>
+      `<div class="lb-thumb ${i === 0 ? 'active' : ''}" onclick="setMainImg(${i})">
+        <img src="${img.src}" alt="${img.alt}" loading="lazy">
+      </div>`
+    ).join('');
+  }
+
+  // click main image to advance
+  document.getElementById('lbMainImg').addEventListener('click', () => {
+    setMainImg((currentImgIdx + 1) % currentImgs.length);
+  });
+
+  // keyboard nav
+  document.addEventListener('keydown', e => {
+    if (!document.getElementById('lightbox').classList.contains('open')) return;
+    if (e.key === 'Escape') closeModal();
+    if (e.key === 'ArrowRight') setMainImg((currentImgIdx + 1) % currentImgs.length);
+    if (e.key === 'ArrowLeft') setMainImg((currentImgIdx - 1 + currentImgs.length) % currentImgs.length);
+  });
+
+  // ── FILTER ──
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const filter = btn.dataset.filter;
+      document.querySelectorAll('.project-card').forEach(card => {
+        const match = filter === 'all' || card.dataset.category === filter;
+        card.style.display = match ? '' : 'none';
+        // handle wide spanning
+        if (match && card.classList.contains('wide')) {
+          card.style.gridColumn = 'span 2';
+        }
+      });
+    });
+  });
+
+  // ── SCROLL REVEAL ──
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        const el = entry.target;
+        setTimeout(() => el.classList.add('visible'), i * 100);
+        observer.unobserve(el);
+      }
+    });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
