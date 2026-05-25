@@ -8,531 +8,187 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-  :root {
-    --bg: #0a0a0f;
-    --surface: #12121a;
-    --surface2: #1a1a28;
-    --border: rgba(255,255,255,0.08);
-    --border-hover: rgba(255,255,255,0.18);
-    --text: #f0ede8;
-    --muted: rgba(240,237,232,0.5);
-    --accent: #c8a96e;
-    --accent2: #7b8fd4;
-    --accent3: #6ec8a9;
-    --serif: 'DM Serif Display', serif;
-    --sans: 'Outfit', sans-serif;
-    --mono: 'DM Mono', monospace;
-  }
-
-  html { scroll-behavior: smooth; }
-
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: var(--sans);
-    font-weight: 300;
-    line-height: 1.7;
-    overflow-x: hidden;
-  }
-
-  /* ── NOISE TEXTURE OVERLAY ── */
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
-    pointer-events: none;
-    z-index: 0;
-    opacity: 0.5;
-  }
-
-  /* ── NAV ── */
-  nav {
-    position: fixed;
-    top: 0; left: 0; right: 0;
-    z-index: 100;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1.25rem 3rem;
-    border-bottom: 1px solid var(--border);
-    background: rgba(10,10,15,0.85);
-    backdrop-filter: blur(20px);
-  }
-
-  .nav-logo {
-    font-family: var(--serif);
-    font-size: 1.4rem;
-    color: var(--text);
-    text-decoration: none;
-    letter-spacing: -0.02em;
-  }
-
-  .nav-logo span { color: var(--accent); }
-
-  .nav-links {
-    display: flex;
-    gap: 2.5rem;
-    list-style: none;
-  }
-
-  .nav-links a {
-    font-size: 0.8rem;
-    font-weight: 500;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--muted);
-    text-decoration: none;
-    transition: color 0.2s;
-  }
-
-  .nav-links a:hover { color: var(--text); }
-
-  /* ── HERO ── */
-  .hero {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    padding: 8rem 3rem 4rem;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .hero-bg-circle {
-    position: absolute;
-    border-radius: 50%;
-    filter: blur(120px);
-    pointer-events: none;
-  }
-
-  .hero-bg-circle:nth-child(1) {
-    width: 600px; height: 600px;
-    background: rgba(123,143,212,0.12);
-    top: -200px; right: -100px;
-  }
-
-  .hero-bg-circle:nth-child(2) {
-    width: 400px; height: 400px;
-    background: rgba(200,169,110,0.08);
-    bottom: 0; left: -150px;
-  }
-
-  .hero-inner {
-    max-width: 900px;
-    position: relative;
-    z-index: 1;
-  }
-
-  .hero-tag {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.35rem 0.9rem;
-    border: 1px solid var(--border-hover);
-    border-radius: 100px;
-    font-size: 0.75rem;
-    font-weight: 500;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-bottom: 2rem;
-  }
-
-  .hero-tag::before {
-    content: '';
-    width: 6px; height: 6px;
-    background: var(--accent3);
-    border-radius: 50%;
-    animation: pulse 2s infinite;
-  }
-
-  @keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.3; }
-  }
-
-  .hero h1 {
-    font-family: var(--serif);
-    font-size: clamp(3rem, 7vw, 6rem);
-    line-height: 1.05;
-    letter-spacing: -0.03em;
-    margin-bottom: 1.5rem;
-  }
-
-  .hero h1 em {
-    font-style: italic;
-    color: var(--accent);
-  }
-
-  .hero-sub {
-    font-size: 1.1rem;
-    color: var(--muted);
-    max-width: 520px;
-    margin-bottom: 3rem;
-    line-height: 1.8;
-  }
-
-  .hero-actions {
-    display: flex;
-    gap: 1rem;
-    flex-wrap: wrap;
-  }
-
-  .btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.8rem 1.8rem;
-    border-radius: 6px;
-    font-family: var(--sans);
-    font-size: 0.85rem;
-    font-weight: 500;
-    letter-spacing: 0.05em;
-    text-decoration: none;
-    cursor: pointer;
-    border: none;
-    transition: all 0.2s ease;
-  }
-
-  .btn-primary {
-    background: var(--accent);
-    color: #0a0a0f;
-  }
-
-  .btn-primary:hover { background: #d4b87a; transform: translateY(-1px); }
-
-  .btn-outline {
-    background: transparent;
-    color: var(--text);
-    border: 1px solid var(--border-hover);
-  }
-
-  .btn-outline:hover { border-color: var(--text); background: rgba(255,255,255,0.04); }
-
-  /* ── SECTION STRUCTURE ── */
-  section {
-    padding: 7rem 3rem;
-    max-width: 1100px;
-    margin: 0 auto;
-    position: relative;
-    z-index: 1;
-  }
-
-  .section-label {
-    font-size: 0.72rem;
-    font-weight: 500;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: 1rem;
-  }
-
-  .section-title {
-    font-family: var(--serif);
-    font-size: clamp(2rem, 4vw, 3.2rem);
-    line-height: 1.1;
-    letter-spacing: -0.02em;
-    margin-bottom: 3rem;
-  }
-
-  /* ── DIVIDER ── */
-  .divider {
-    width: 100%;
-    height: 1px;
-    background: linear-gradient(to right, transparent, var(--border), transparent);
-    margin: 0 auto;
-  }
-
-  /* ── ABOUT ── */
-  .about-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 5rem;
-    align-items: start;
-  }
-
-  .about-text p {
-    color: var(--muted);
-    font-size: 1.05rem;
-    line-height: 1.9;
-    margin-bottom: 1.5rem;
-  }
-
-  .about-text p strong {
-    color: var(--text);
-    font-weight: 500;
-  }
-
-  .stats-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1px;
-    background: var(--border);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    overflow: hidden;
-  }
-
-  .stat-box {
-    background: var(--surface);
-    padding: 2rem;
-    transition: background 0.2s;
-  }
-
-  .stat-box:hover { background: var(--surface2); }
-
-  .stat-num {
-    font-family: var(--serif);
-    font-size: 2.4rem;
-    color: var(--accent);
-    line-height: 1;
-    margin-bottom: 0.5rem;
-  }
-
-  .stat-label {
-    font-size: 0.8rem;
-    color: var(--muted);
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    font-weight: 500;
-  }
-
-  /* ── SKILLS ── */
-  .skills-section { background: var(--surface); }
-
-  .skills-content {
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 7rem 3rem;
-  }
-
-  .skills-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1.5rem;
-  }
-
-  .skill-card {
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 1.75rem;
-    background: var(--bg);
-    transition: all 0.25s ease;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .skill-card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 2px;
-    background: linear-gradient(to right, var(--accent2), var(--accent));
-    opacity: 0;
-    transition: opacity 0.25s;
-  }
-
-  .skill-card:hover { border-color: var(--border-hover); transform: translateY(-3px); }
-  .skill-card:hover::before { opacity: 1; }
-
-  .skill-icon {
-    font-size: 1.5rem;
-    margin-bottom: 1rem;
-    display: block;
-  }
-
-  .skill-name {
-    font-size: 0.95rem;
-    font-weight: 500;
-    margin-bottom: 0.5rem;
-  }
-
-  .skill-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.4rem;
-    margin-top: 1rem;
-  }
-
-  .tag {
-    font-size: 0.7rem;
-    font-weight: 500;
-    letter-spacing: 0.06em;
-    padding: 0.25rem 0.6rem;
-    border-radius: 4px;
-    background: rgba(255,255,255,0.06);
-    color: var(--muted);
-    border: 1px solid var(--border);
-  }
-
-  /* ── PROJECTS ── */
-  .projects-list { display: flex; flex-direction: column; gap: 2px; }
-
-  .project-row {
-    display: grid;
-    grid-template-columns: 3rem 1fr auto;
-    align-items: center;
-    gap: 2rem;
-    padding: 2rem;
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    background: var(--surface);
-    cursor: default;
-    transition: all 0.2s ease;
-    margin-bottom: 1rem;
-  }
-
-  .project-row:hover {
-    border-color: var(--border-hover);
-    background: var(--surface2);
-    transform: translateX(6px);
-  }
-
-  .project-num {
-    font-family: var(--mono);
-    font-size: 0.8rem;
-    color: var(--accent);
-    opacity: 0.6;
-  }
-
-  .project-info h3 {
-    font-size: 1.05rem;
-    font-weight: 500;
-    margin-bottom: 0.3rem;
-  }
-
-  .project-info p {
-    font-size: 0.85rem;
-    color: var(--muted);
-    line-height: 1.5;
-  }
-
-  .project-badge {
-    font-size: 0.7rem;
-    font-weight: 500;
-    letter-spacing: 0.08em;
-    padding: 0.35rem 0.8rem;
-    border-radius: 100px;
-    white-space: nowrap;
-  }
-
-  .badge-mech { background: rgba(200,169,110,0.15); color: var(--accent); border: 1px solid rgba(200,169,110,0.3); }
-  .badge-cs { background: rgba(123,143,212,0.15); color: var(--accent2); border: 1px solid rgba(123,143,212,0.3); }
-  .badge-hybrid { background: rgba(110,200,169,0.15); color: var(--accent3); border: 1px solid rgba(110,200,169,0.3); }
-
-  /* ── GOALS ── */
-  .goals-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 2rem;
-  }
-
-  .goal-card {
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 2.5rem;
-    background: var(--surface);
-    position: relative;
-    overflow: hidden;
-    transition: all 0.25s;
-  }
-
-  .goal-card:hover { border-color: var(--border-hover); }
-
-  .goal-card::after {
-    content: '';
-    position: absolute;
-    bottom: 0; right: 0;
-    width: 120px; height: 120px;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(200,169,110,0.08) 0%, transparent 70%);
-  }
-
-  .goal-timeline {
-    font-family: var(--mono);
-    font-size: 0.72rem;
-    color: var(--accent);
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    margin-bottom: 1rem;
-  }
-
-  .goal-card h3 {
-    font-family: var(--serif);
-    font-size: 1.5rem;
-    margin-bottom: 1rem;
-  }
-
-  .goal-card p {
-    font-size: 0.9rem;
-    color: var(--muted);
-    line-height: 1.8;
-  }
-
-  /* ── CONTACT ── */
-  .contact-wrap {
-    text-align: center;
-    max-width: 600px;
-    margin: 0 auto;
-  }
-
-  .contact-wrap .section-title { margin-bottom: 1.25rem; }
-
-  .contact-wrap p {
-    color: var(--muted);
-    margin-bottom: 2.5rem;
-    font-size: 1rem;
-  }
-
-  .contact-links {
-    display: flex;
-    gap: 1rem;
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-
-  /* ── FOOTER ── */
-  footer {
-    border-top: 1px solid var(--border);
-    padding: 2rem 3rem;
-    text-align: center;
-    font-size: 0.8rem;
-    color: var(--muted);
-  }
-
-  footer a { color: var(--muted); text-decoration: none; }
-  footer a:hover { color: var(--text); }
-
-  /* ── SCROLL ANIMATIONS ── */
-  .reveal {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: opacity 0.7s ease, transform 0.7s ease;
-  }
-
-  .reveal.visible {
-    opacity: 1;
-    transform: none;
-  }
-
-  /* ── MOBILE ── */
-  @media (max-width: 768px) {
-    nav { padding: 1rem 1.5rem; }
-    .nav-links { gap: 1.5rem; }
-    .nav-links a { font-size: 0.7rem; }
-
-    .hero { padding: 6rem 1.5rem 3rem; }
-    section { padding: 4rem 1.5rem; }
-    .skills-content { padding: 4rem 1.5rem; }
-
-    .about-grid { grid-template-columns: 1fr; gap: 3rem; }
-    .skills-grid { grid-template-columns: 1fr; }
-    .goals-grid { grid-template-columns: 1fr; }
-    .project-row { grid-template-columns: 1fr; gap: 0.75rem; }
-    .project-num { display: none; }
-  }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #0a0a0f;
+  --surface: #12121a;
+  --surface2: #1a1a28;
+  --border: rgba(255,255,255,0.08);
+  --border-hover: rgba(255,255,255,0.18);
+  --text: #f0ede8;
+  --muted: rgba(240,237,232,0.5);
+  --accent: #c8a96e;
+  --accent2: #7b8fd4;
+  --accent3: #6ec8a9;
+  --serif: 'DM Serif Display', serif;
+  --sans: 'Outfit', sans-serif;
+  --mono: 'DM Mono', monospace;
+}
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg); color: var(--text);
+  font-family: var(--sans); font-weight: 300;
+  line-height: 1.7; overflow-x: hidden;
+}
+body::before {
+  content: ''; position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none; z-index: 0; opacity: 0.5;
+}
+
+/* NAV */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 1.25rem 3rem;
+  border-bottom: 1px solid var(--border);
+  background: rgba(10,10,15,0.85); backdrop-filter: blur(20px);
+}
+.nav-logo { font-family: var(--serif); font-size: 1.4rem; color: var(--text); text-decoration: none; letter-spacing: -0.02em; }
+.nav-logo span { color: var(--accent); }
+.nav-links { display: flex; gap: 2.5rem; list-style: none; align-items: center; }
+.nav-links a { font-size: 0.8rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color 0.2s; }
+.nav-links a:hover { color: var(--text); }
+.nav-admin-btn {
+  font-size: 0.72rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase;
+  padding: 0.4rem 1rem; border: 1px solid var(--border-hover); border-radius: 100px;
+  background: transparent; color: var(--muted); cursor: pointer; font-family: var(--sans); transition: all 0.2s;
+}
+.nav-admin-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+/* HERO */
+.hero { min-height: 100vh; display: flex; align-items: center; padding: 8rem 3rem 4rem; position: relative; overflow: hidden; }
+.hero-bg-circle { position: absolute; border-radius: 50%; filter: blur(120px); pointer-events: none; }
+.hero-bg-circle:nth-child(1) { width: 600px; height: 600px; background: rgba(123,143,212,0.12); top: -200px; right: -100px; }
+.hero-bg-circle:nth-child(2) { width: 400px; height: 400px; background: rgba(200,169,110,0.08); bottom: 0; left: -150px; }
+.hero-inner { max-width: 900px; position: relative; z-index: 1; }
+.hero-tag { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.35rem 0.9rem; border: 1px solid var(--border-hover); border-radius: 100px; font-size: 0.75rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 2rem; }
+.hero-tag::before { content: ''; width: 6px; height: 6px; background: var(--accent3); border-radius: 50%; animation: pulse 2s infinite; }
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+.hero h1 { font-family: var(--serif); font-size: clamp(3rem, 7vw, 6rem); line-height: 1.05; letter-spacing: -0.03em; margin-bottom: 1.5rem; }
+.hero h1 em { font-style: italic; color: var(--accent); }
+.hero-sub { font-size: 1.1rem; color: var(--muted); max-width: 520px; margin-bottom: 3rem; line-height: 1.8; }
+.hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+.btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.8rem 1.8rem; border-radius: 6px; font-family: var(--sans); font-size: 0.85rem; font-weight: 500; letter-spacing: 0.05em; text-decoration: none; cursor: pointer; border: none; transition: all 0.2s ease; }
+.btn-primary { background: var(--accent); color: #0a0a0f; }
+.btn-primary:hover { background: #d4b87a; transform: translateY(-1px); }
+.btn-outline { background: transparent; color: var(--text); border: 1px solid var(--border-hover); }
+.btn-outline:hover { border-color: var(--text); background: rgba(255,255,255,0.04); }
+
+/* SECTIONS */
+section { padding: 7rem 3rem; max-width: 1100px; margin: 0 auto; position: relative; z-index: 1; }
+.section-label { font-size: 0.72rem; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); margin-bottom: 1rem; }
+.section-title { font-family: var(--serif); font-size: clamp(2rem, 4vw, 3.2rem); line-height: 1.1; letter-spacing: -0.02em; margin-bottom: 3rem; }
+.divider { width: 100%; height: 1px; background: linear-gradient(to right, transparent, var(--border), transparent); margin: 0 auto; }
+
+/* ABOUT */
+.about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start; }
+.about-text p { color: var(--muted); font-size: 1.05rem; line-height: 1.9; margin-bottom: 1.5rem; }
+.about-text p strong { color: var(--text); font-weight: 500; }
+.stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+.stat-box { background: var(--surface); padding: 2rem; transition: background 0.2s; }
+.stat-box:hover { background: var(--surface2); }
+.stat-num { font-family: var(--serif); font-size: 2.4rem; color: var(--accent); line-height: 1; margin-bottom: 0.5rem; }
+.stat-label { font-size: 0.8rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; font-weight: 500; }
+
+/* SKILLS */
+.skills-section { background: var(--surface); }
+.skills-content { max-width: 1100px; margin: 0 auto; padding: 7rem 3rem; }
+.skills-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+.skill-card { border: 1px solid var(--border); border-radius: 12px; padding: 1.75rem; background: var(--bg); transition: all 0.25s ease; position: relative; overflow: hidden; }
+.skill-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(to right, var(--accent2), var(--accent)); opacity: 0; transition: opacity 0.25s; }
+.skill-card:hover { border-color: var(--border-hover); transform: translateY(-3px); }
+.skill-card:hover::before { opacity: 1; }
+.skill-icon { font-size: 1.5rem; margin-bottom: 1rem; display: block; }
+.skill-name { font-size: 0.95rem; font-weight: 500; margin-bottom: 0.5rem; }
+.skill-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 1rem; }
+.tag { font-size: 0.7rem; font-weight: 500; letter-spacing: 0.06em; padding: 0.25rem 0.6rem; border-radius: 4px; background: rgba(255,255,255,0.06); color: var(--muted); border: 1px solid var(--border); }
+
+/* PROJECTS */
+.projects-list { display: flex; flex-direction: column; gap: 2px; }
+.project-row { display: grid; grid-template-columns: 3rem 1fr auto; align-items: center; gap: 2rem; padding: 2rem; border: 1px solid var(--border); border-radius: 10px; background: var(--surface); transition: all 0.2s ease; margin-bottom: 1rem; }
+.project-row:hover { border-color: var(--border-hover); background: var(--surface2); transform: translateX(6px); }
+.project-num { font-family: var(--mono); font-size: 0.8rem; color: var(--accent); opacity: 0.6; }
+.project-info h3 { font-size: 1.05rem; font-weight: 500; margin-bottom: 0.3rem; }
+.project-info p { font-size: 0.85rem; color: var(--muted); line-height: 1.5; }
+.project-badge { font-size: 0.7rem; font-weight: 500; letter-spacing: 0.08em; padding: 0.35rem 0.8rem; border-radius: 100px; white-space: nowrap; }
+.badge-mech { background: rgba(200,169,110,0.15); color: var(--accent); border: 1px solid rgba(200,169,110,0.3); }
+.badge-cs { background: rgba(123,143,212,0.15); color: var(--accent2); border: 1px solid rgba(123,143,212,0.3); }
+.badge-hybrid { background: rgba(110,200,169,0.15); color: var(--accent3); border: 1px solid rgba(110,200,169,0.3); }
+
+/* GOALS */
+.goals-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+.goal-card { border: 1px solid var(--border); border-radius: 12px; padding: 2.5rem; background: var(--surface); position: relative; overflow: hidden; transition: all 0.25s; }
+.goal-card:hover { border-color: var(--border-hover); }
+.goal-card::after { content: ''; position: absolute; bottom: 0; right: 0; width: 120px; height: 120px; border-radius: 50%; background: radial-gradient(circle, rgba(200,169,110,0.08) 0%, transparent 70%); }
+.goal-timeline { font-family: var(--mono); font-size: 0.72rem; color: var(--accent); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 1rem; }
+.goal-card h3 { font-family: var(--serif); font-size: 1.5rem; margin-bottom: 1rem; }
+.goal-card p { font-size: 0.9rem; color: var(--muted); line-height: 1.8; }
+
+/* CONTACT */
+.contact-wrap { text-align: center; max-width: 600px; margin: 0 auto; }
+.contact-wrap .section-title { margin-bottom: 1.25rem; }
+.contact-wrap p { color: var(--muted); margin-bottom: 2.5rem; font-size: 1rem; }
+.contact-links { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+/* FOOTER */
+footer { border-top: 1px solid var(--border); padding: 2rem 3rem; text-align: center; font-size: 0.8rem; color: var(--muted); }
+footer a { color: var(--muted); text-decoration: none; }
+footer a:hover { color: var(--text); }
+
+/* REVEAL */
+.reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
+.reveal.visible { opacity: 1; transform: none; }
+
+/* ── ADMIN PANEL ── */
+.admin-panel {
+  display: none; position: fixed; inset: 0; z-index: 500;
+  background: rgba(5,5,10,0.97); backdrop-filter: blur(16px);
+  overflow-y: auto; padding: 2rem;
+}
+.admin-panel.open { display: block; }
+.admin-inner { max-width: 760px; margin: 0 auto; padding: 2rem 0 6rem; }
+.admin-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 2.5rem; }
+.admin-title { font-family: var(--serif); font-size: 2rem; color: var(--text); }
+.admin-close-btn { padding: 0.55rem 1.25rem; border-radius: 6px; border: 1px solid var(--border-hover); background: transparent; color: var(--muted); font-family: var(--sans); font-size: 0.8rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; cursor: pointer; transition: all 0.2s; }
+.admin-close-btn:hover { color: var(--text); border-color: var(--text); }
+.admin-section-label { font-size: 0.68rem; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); margin-bottom: 1rem; }
+.admin-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 2rem; margin-bottom: 2.5rem; }
+.admin-form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.admin-form-group { display: flex; flex-direction: column; gap: 6px; }
+.admin-form-group.full { grid-column: 1 / -1; }
+label { font-size: 0.72rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+input[type=text], input[type=url], input[type=email], textarea, select {
+  font-family: var(--sans); font-size: 0.9rem; padding: 0.6rem 0.9rem;
+  background: var(--surface2); color: var(--text); border: 1px solid var(--border);
+  border-radius: 6px; width: 100%; outline: none; transition: border-color 0.2s;
+}
+input:focus, textarea:focus, select:focus { border-color: var(--accent); }
+textarea { resize: vertical; min-height: 80px; }
+.btn-save { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.7rem 1.5rem; border-radius: 6px; background: var(--accent); color: #0a0a0f; font-family: var(--sans); font-size: 0.85rem; font-weight: 500; letter-spacing: 0.05em; border: none; cursor: pointer; transition: background 0.2s; }
+.btn-save:hover { background: #d4b87a; }
+.admin-actions-row { display: flex; justify-content: flex-end; margin-top: 1.25rem; }
+.admin-divider { height: 1px; background: var(--border); margin: 1.5rem 0; }
+
+/* TOAST */
+.toast { position: fixed; bottom: 2rem; right: 2rem; z-index: 1000; background: var(--surface2); color: var(--text); border: 1px solid var(--border-hover); font-size: 0.85rem; font-weight: 500; padding: 0.65rem 1.25rem; border-radius: 8px; transform: translateY(8px); opacity: 0; transition: all 0.2s; pointer-events: none; }
+.toast.show { transform: translateY(0); opacity: 1; }
+
+/* MOBILE */
+@media (max-width: 768px) {
+  nav { padding: 1rem 1.5rem; }
+  .nav-links { gap: 1.5rem; }
+  .nav-links a { font-size: 0.7rem; }
+  .hero { padding: 6rem 1.5rem 3rem; }
+  section { padding: 4rem 1.5rem; }
+  .skills-content { padding: 4rem 1.5rem; }
+  .about-grid { grid-template-columns: 1fr; gap: 3rem; }
+  .skills-grid { grid-template-columns: 1fr; }
+  .goals-grid { grid-template-columns: 1fr; }
+  .project-row { grid-template-columns: 1fr; gap: 0.75rem; }
+  .project-num { display: none; }
+  .admin-form-grid { grid-template-columns: 1fr; }
+}
 </style>
 </head>
 <body>
@@ -545,6 +201,7 @@
     <li><a href="#skills">Skills</a></li>
     <li><a href="zafir-projects.html">Projects</a></li>
     <li><a href="#contact">Contact</a></li>
+    <li><button class="nav-admin-btn" onclick="toggleAdmin()">⚙ Edit</button></li>
   </ul>
 </nav>
 
@@ -553,12 +210,12 @@
   <div class="hero-bg-circle"></div>
   <div class="hero-bg-circle"></div>
   <div class="hero-inner">
-    <div class="hero-tag">Available for full-time roles · Class of 2026</div>
-    <h1>Zafir Ali —<br><em>Engineering</em><br>things that matter.</h1>
-    <p class="hero-sub">B.S. Mechanical Engineering student at NJIT, minor in Engineering Innovation. 3.48 GPA · Dean's List · Builder of physical systems and smart products.</p>
+    <div class="hero-tag" id="d-hero-tag">Available for full-time roles · Class of 2026</div>
+    <h1 id="d-hero-h1">Zafir Ali —<br><em>Engineering</em><br>things that matter.</h1>
+    <p class="hero-sub" id="d-hero-sub">B.S. Mechanical Engineering student at NJIT, minor in Engineering Innovation. 3.48 GPA · Dean's List · Builder of physical systems and smart products.</p>
     <div class="hero-actions">
       <a href="zafir-projects.html" class="btn btn-primary">View My Work →</a>
-      <a href="https://www.linkedin.com/in/zafirali/" class="btn btn-outline" target="_blank">LinkedIn ↗</a>
+      <a href="https://www.linkedin.com/in/zafirali/" class="btn btn-outline" target="_blank" id="d-linkedin-btn">LinkedIn ↗</a>
       <a href="#contact" class="btn btn-outline">Get in Touch</a>
     </div>
   </div>
@@ -570,31 +227,19 @@
 <section id="about">
   <div class="reveal">
     <p class="section-label">About Me</p>
-    <h2 class="section-title">Builder by instinct,<br>engineer by training.</h2>
+    <h2 class="section-title" id="d-about-title">Builder by instinct,<br>engineer by training.</h2>
   </div>
   <div class="about-grid">
     <div class="about-text reveal">
-      <p>I'm a <strong>graduating senior in Mechanical Engineering at NJIT</strong> (Newark College of Engineering), with a minor in Engineering Innovation. I've maintained a <strong>3.48 GPA</strong> and earned Dean's List honors every eligible semester.</p>
-      <p>My coursework spans the full mechanical engineering stack — thermodynamics, fluid mechanics, machine design, heat transfer, stress analysis, and CAD — plus hands-on labs in machining, prototyping, and mechanical systems design. I also completed an Honors course in <strong>Microcontrollers & IoT</strong>, bridging physical engineering with embedded systems.</p>
-      <p>I'm drawn to engineering because I love making things. I approach problems with curiosity, a maker's mindset, and a commitment to follow-through.</p>
+      <p id="d-about-p1">I'm a <strong>graduating senior in Mechanical Engineering at NJIT</strong> (Newark College of Engineering), with a minor in Engineering Innovation. I've maintained a <strong>3.48 GPA</strong> and earned Dean's List honors every eligible semester.</p>
+      <p id="d-about-p2">My coursework spans the full mechanical engineering stack — thermodynamics, fluid mechanics, machine design, heat transfer, stress analysis, and CAD — plus hands-on labs in machining, prototyping, and mechanical systems design. I also completed an Honors course in <strong>Microcontrollers & IoT</strong>, bridging physical engineering with embedded systems.</p>
+      <p id="d-about-p3">I'm drawn to engineering because I love making things. I approach problems with curiosity, a maker's mindset, and a commitment to follow-through.</p>
     </div>
     <div class="stats-grid reveal">
-      <div class="stat-box">
-        <div class="stat-num">3.48</div>
-        <div class="stat-label">Cumulative GPA</div>
-      </div>
-      <div class="stat-box">
-        <div class="stat-num">ME</div>
-        <div class="stat-label">B.S. Major</div>
-      </div>
-      <div class="stat-box">
-        <div class="stat-num">EI</div>
-        <div class="stat-label">Innovation Minor</div>
-      </div>
-      <div class="stat-box">
-        <div class="stat-num">7×</div>
-        <div class="stat-label">Dean's List</div>
-      </div>
+      <div class="stat-box"><div class="stat-num" id="d-stat1-num">3.48</div><div class="stat-label" id="d-stat1-label">Cumulative GPA</div></div>
+      <div class="stat-box"><div class="stat-num" id="d-stat2-num">ME</div><div class="stat-label" id="d-stat2-label">B.S. Major</div></div>
+      <div class="stat-box"><div class="stat-num" id="d-stat3-num">EI</div><div class="stat-label" id="d-stat3-label">Innovation Minor</div></div>
+      <div class="stat-box"><div class="stat-num" id="d-stat4-num">7×</div><div class="stat-label" id="d-stat4-label">Dean's List</div></div>
     </div>
   </div>
 </section>
@@ -613,66 +258,37 @@
         <span class="skill-icon">⚙️</span>
         <div class="skill-name">Mechanical Design & CAD</div>
         <p style="font-size:0.85rem;color:var(--muted);line-height:1.6;">End-to-end product design from concept through CAD modeling, machine design principles, and mechanical systems integration.</p>
-        <div class="skill-tags">
-          <span class="tag">CAD (ME 430)</span>
-          <span class="tag">Machine Design</span>
-          <span class="tag">Kinematics</span>
-          <span class="tag">Mech. Systems Design</span>
-        </div>
+        <div class="skill-tags"><span class="tag">CAD (ME 430)</span><span class="tag">Machine Design</span><span class="tag">Kinematics</span><span class="tag">Mech. Systems Design</span></div>
       </div>
       <div class="skill-card reveal">
         <span class="skill-icon">🔥</span>
         <div class="skill-name">Thermal & Fluid Systems</div>
         <p style="font-size:0.85rem;color:var(--muted);line-height:1.6;">Deep coursework in energy transfer, fluid behavior, and thermal system analysis — both theory and lab application.</p>
-        <div class="skill-tags">
-          <span class="tag">Thermodynamics I & II</span>
-          <span class="tag">Fluid Mechanics</span>
-          <span class="tag">Heat Transfer</span>
-        </div>
+        <div class="skill-tags"><span class="tag">Thermodynamics I & II</span><span class="tag">Fluid Mechanics</span><span class="tag">Heat Transfer</span></div>
       </div>
       <div class="skill-card reveal">
         <span class="skill-icon">🔩</span>
         <div class="skill-name">Structural Analysis</div>
         <p style="font-size:0.85rem;color:var(--muted);line-height:1.6;">Analyzing forces, stresses, and material behavior to ensure components and assemblies perform reliably under real-world loads.</p>
-        <div class="skill-tags">
-          <span class="tag">Stress Analysis</span>
-          <span class="tag">Strength of Materials</span>
-          <span class="tag">Dynamics</span>
-          <span class="tag">Metallurgy</span>
-        </div>
+        <div class="skill-tags"><span class="tag">Stress Analysis</span><span class="tag">Strength of Materials</span><span class="tag">Dynamics</span><span class="tag">Metallurgy</span></div>
       </div>
       <div class="skill-card reveal">
         <span class="skill-icon">🖨️</span>
         <div class="skill-name">Fabrication & Prototyping</div>
         <p style="font-size:0.85rem;color:var(--muted);line-height:1.6;">Hands-on manufacturing experience: manual machining, additive manufacturing, and rapid prototyping from concept to part.</p>
-        <div class="skill-tags">
-          <span class="tag">Manual Machining</span>
-          <span class="tag">Prototyping</span>
-          <span class="tag">Engr. Materials</span>
-          <span class="tag">Mech. Lab I–III</span>
-        </div>
+        <div class="skill-tags"><span class="tag">Manual Machining</span><span class="tag">Prototyping</span><span class="tag">Engr. Materials</span><span class="tag">Mech. Lab I–III</span></div>
       </div>
       <div class="skill-card reveal">
         <span class="skill-icon">🤖</span>
         <div class="skill-name">Embedded Systems & IoT</div>
         <p style="font-size:0.85rem;color:var(--muted);line-height:1.6;">Honors-level coursework in microcontroller programming and IoT integration — bridging physical hardware with connected systems.</p>
-        <div class="skill-tags">
-          <span class="tag">Microcontrollers</span>
-          <span class="tag">IoT</span>
-          <span class="tag">Embedded C</span>
-          <span class="tag">Sensors</span>
-        </div>
+        <div class="skill-tags"><span class="tag">Microcontrollers</span><span class="tag">IoT</span><span class="tag">Embedded C</span><span class="tag">Sensors</span></div>
       </div>
       <div class="skill-card reveal">
         <span class="skill-icon">💡</span>
         <div class="skill-name">Engineering Innovation</div>
         <p style="font-size:0.85rem;color:var(--muted);line-height:1.6;">Minor focused on entrepreneurial thinking, product development, legal aspects of engineering, and bringing ideas to market.</p>
-        <div class="skill-tags">
-          <span class="tag">Entrepreneurship</span>
-          <span class="tag">Eng. Management</span>
-          <span class="tag">Legal Aspects</span>
-          <span class="tag">System Dynamics</span>
-        </div>
+        <div class="skill-tags"><span class="tag">Entrepreneurship</span><span class="tag">Eng. Management</span><span class="tag">Legal Aspects</span><span class="tag">System Dynamics</span></div>
       </div>
     </div>
   </div>
@@ -680,66 +296,22 @@
 
 <div class="divider"></div>
 
-<!-- PROJECTS -->
+<!-- PROJECTS PREVIEW -->
 <section id="projects">
   <div class="reveal">
     <p class="section-label">Portfolio</p>
     <h2 class="section-title">Selected work &<br>coursework highlights.</h2>
   </div>
   <div class="projects-list">
-    <div class="project-row reveal">
-      <div class="project-num">01</div>
-      <div class="project-info">
-        <h3>Mechanical Systems Design I & II (ME 403 / ME 408)</h3>
-        <p>Two-semester capstone sequence applying the complete engineering design process — from requirements and concept generation through prototyping, iteration, and final system delivery.</p>
-      </div>
-      <span class="project-badge badge-mech">Capstone</span>
-    </div>
-    <div class="project-row reveal">
-      <div class="project-num">02</div>
-      <div class="project-info">
-        <h3>Microcontrollers & IoT — Honors (ENGR 330)</h3>
-        <p>Honors-level course designing and programming embedded systems with microcontrollers and IoT connectivity. Bridged low-level hardware control with networked, sensor-driven applications.</p>
-      </div>
-      <span class="project-badge badge-hybrid">Embedded · Honors</span>
-    </div>
-    <div class="project-row reveal">
-      <div class="project-num">03</div>
-      <div class="project-info">
-        <h3>Computer-Aided Design (ME 430)</h3>
-        <p>Comprehensive CAD course covering 3D solid modeling, assembly design, and technical drawing — applying industry-standard tools to realistic mechanical design challenges.</p>
-      </div>
-      <span class="project-badge badge-mech">Mechanical</span>
-    </div>
-    <div class="project-row reveal">
-      <div class="project-num">04</div>
-      <div class="project-info">
-        <h3>Mechanical Laboratory I, II & III (ME 343 / 405 / 406)</h3>
-        <p>Three-semester laboratory sequence conducting experiments in fluid flow, heat transfer, materials testing, and dynamic systems — producing formal technical reports from raw data.</p>
-      </div>
-      <span class="project-badge badge-mech">Lab & Analysis</span>
-    </div>
-    <div class="project-row reveal">
-      <div class="project-num">05</div>
-      <div class="project-info">
-        <h3>Prototyping Essentials & Manual Machining (ENGR 320 / 220)</h3>
-        <p>Hands-on manufacturing: manual machining (lathe, mill), and rapid prototyping methods translating designs into physical parts with real tolerances and material constraints.</p>
-      </div>
-      <span class="project-badge badge-hybrid">Fabrication</span>
-    </div>
-    <div class="project-row reveal">
-      <div class="project-num">06</div>
-      <div class="project-info">
-        <h3>Machine Design & Stress Analysis (ME 316 / ME 315)</h3>
-        <p>Designing mechanical components for fatigue life, failure modes, and real-world loading. Applied strength of materials theory to shafts, gears, fasteners, and structural members.</p>
-      </div>
-      <span class="project-badge badge-mech">Mechanical</span>
-    </div>
+    <div class="project-row reveal"><div class="project-num">01</div><div class="project-info"><h3>Mechanical Systems Design I & II (ME 403 / ME 408)</h3><p>Two-semester capstone sequence applying the complete engineering design process — from requirements and concept generation through prototyping, iteration, and final system delivery.</p></div><span class="project-badge badge-mech">Capstone</span></div>
+    <div class="project-row reveal"><div class="project-num">02</div><div class="project-info"><h3>Microcontrollers & IoT — Honors (ENGR 330)</h3><p>Honors-level course designing and programming embedded systems with microcontrollers and IoT connectivity. Bridged low-level hardware control with networked, sensor-driven applications.</p></div><span class="project-badge badge-hybrid">Embedded · Honors</span></div>
+    <div class="project-row reveal"><div class="project-num">03</div><div class="project-info"><h3>Computer-Aided Design (ME 430)</h3><p>Comprehensive CAD course covering 3D solid modeling, assembly design, and technical drawing — applying industry-standard tools to realistic mechanical design challenges.</p></div><span class="project-badge badge-mech">Mechanical</span></div>
+    <div class="project-row reveal"><div class="project-num">04</div><div class="project-info"><h3>Mechanical Laboratory I, II & III (ME 343 / 405 / 406)</h3><p>Three-semester laboratory sequence conducting experiments in fluid flow, heat transfer, materials testing, and dynamic systems — producing formal technical reports from raw data.</p></div><span class="project-badge badge-mech">Lab & Analysis</span></div>
+    <div class="project-row reveal"><div class="project-num">05</div><div class="project-info"><h3>Prototyping Essentials & Manual Machining (ENGR 320 / 220)</h3><p>Hands-on manufacturing: manual machining (lathe, mill), and rapid prototyping methods translating designs into physical parts with real tolerances and material constraints.</p></div><span class="project-badge badge-hybrid">Fabrication</span></div>
+    <div class="project-row reveal"><div class="project-num">06</div><div class="project-info"><h3>Machine Design & Stress Analysis (ME 316 / ME 315)</h3><p>Designing mechanical components for fatigue life, failure modes, and real-world loading. Applied strength of materials theory to shafts, gears, fasteners, and structural members.</p></div><span class="project-badge badge-mech">Mechanical</span></div>
   </div>
   <p style="font-size:0.82rem;color:var(--muted);margin-top:1.5rem;text-align:center;font-style:italic;">More detailed project descriptions — reach out or connect on LinkedIn.</p>
-  <div style="text-align:center;margin-top:2rem;">
-    <a href="zafir-projects.html" class="btn btn-outline">View Full CAD Portfolio →</a>
-  </div>
+  <div style="text-align:center;margin-top:2rem;"><a href="zafir-projects.html" class="btn btn-outline">View Full CAD Portfolio →</a></div>
 </section>
 
 <div class="divider"></div>
@@ -753,13 +325,13 @@
   <div class="goals-grid">
     <div class="goal-card reveal">
       <div class="goal-timeline">// Short term</div>
-      <h3>Land a Full-Time Engineering Role</h3>
-      <p>I'm graduating Spring 2026 and actively seeking full-time positions in mechanical engineering. I want to join a team working on physical products — where my hands-on coursework in design, thermal systems, fabrication, and embedded systems can make an immediate impact.</p>
+      <h3 id="d-goal1-title">Land a Full-Time Engineering Role</h3>
+      <p id="d-goal1-text">I'm graduating Spring 2026 and actively seeking full-time positions in mechanical engineering. I want to join a team working on physical products — where my hands-on coursework in design, thermal systems, fabrication, and embedded systems can make an immediate impact.</p>
     </div>
     <div class="goal-card reveal">
       <div class="goal-timeline">// Long term</div>
-      <h3>Build Products Worth Building</h3>
-      <p>My long-term goal is to work in an industry I genuinely care about — creating products that solve real problems and push on hard engineering constraints. I want a career where technical depth, creative problem-solving, and curiosity compound over time into something meaningful.</p>
+      <h3 id="d-goal2-title">Build Products Worth Building</h3>
+      <p id="d-goal2-text">My long-term goal is to work in an industry I genuinely care about — creating products that solve real problems and push on hard engineering constraints. I want a career where technical depth, creative problem-solving, and curiosity compound over time into something meaningful.</p>
     </div>
   </div>
 </section>
@@ -770,36 +342,213 @@
 <section id="contact">
   <div class="contact-wrap reveal">
     <p class="section-label">Let's Connect</p>
-    <h2 class="section-title">Open to opportunities.</h2>
-    <p>Graduating Spring 2026 and open to full-time mechanical engineering roles. If you're working on something interesting and need someone who can design, build, and think — let's talk.</p>
+    <h2 class="section-title" id="d-contact-title">Open to opportunities.</h2>
+    <p id="d-contact-text">Graduating Spring 2026 and open to full-time mechanical engineering roles. If you're working on something interesting and need someone who can design, build, and think — let's talk.</p>
     <div class="contact-links">
-      <a href="https://www.linkedin.com/in/zafirali/" class="btn btn-primary" target="_blank">Connect on LinkedIn ↗</a>
-      <a href="mailto:zafirali@example.com" class="btn btn-outline">Send an Email</a>
+      <a href="https://www.linkedin.com/in/zafirali/" class="btn btn-primary" target="_blank" id="d-contact-linkedin">Connect on LinkedIn ↗</a>
+      <a href="mailto:zafirali@example.com" class="btn btn-outline" id="d-contact-email">Send an Email</a>
     </div>
   </div>
 </section>
 
 <!-- FOOTER -->
 <footer>
-  <p>© 2026 Zafir Ali · B.S. Mechanical Engineering @ NJIT · Minor in Engineering Innovation ·
-    <a href="https://www.linkedin.com/in/zafirali/" target="_blank">LinkedIn</a>
-  </p>
+  <p id="d-footer">© 2026 Zafir Ali · B.S. Mechanical Engineering @ NJIT · Minor in Engineering Innovation · <a href="https://www.linkedin.com/in/zafirali/" target="_blank">LinkedIn</a></p>
 </footer>
 
-<script>
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry, i) => {
-      if (entry.isIntersecting) {
-        const el = entry.target;
-        const siblings = [...el.parentElement.querySelectorAll('.reveal')];
-        const idx = siblings.indexOf(el);
-        setTimeout(() => { el.classList.add('visible'); }, idx * 80);
-        observer.unobserve(el);
-      }
-    });
-  }, { threshold: 0.1 });
+<!-- ── ADMIN PANEL ── -->
+<div class="admin-panel" id="adminPanel">
+  <div class="admin-inner">
+    <div class="admin-header">
+      <h2 class="admin-title">Page Editor</h2>
+      <button class="admin-close-btn" onclick="toggleAdmin()">← Back to Page</button>
+    </div>
 
-  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    <!-- Hero -->
+    <div class="admin-section-label">Hero Section</div>
+    <div class="admin-card">
+      <div class="admin-form-grid">
+        <div class="admin-form-group full"><label>Status Tag</label><input type="text" id="a-hero-tag" placeholder="Available for full-time roles · Class of 2026"></div>
+        <div class="admin-form-group full"><label>Headline (use \n for line breaks)</label><textarea id="a-hero-h1" rows="3" placeholder="Zafir Ali —\nEngineering\nthings that matter."></textarea></div>
+        <div class="admin-form-group full"><label>Subheading</label><textarea id="a-hero-sub" rows="2"></textarea></div>
+        <div class="admin-form-group full"><label>LinkedIn URL</label><input type="url" id="a-linkedin" placeholder="https://www.linkedin.com/in/..."></div>
+      </div>
+      <div class="admin-actions-row"><button class="btn-save" onclick="saveHero()">Save Hero</button></div>
+    </div>
+
+    <!-- About -->
+    <div class="admin-section-label">About Section</div>
+    <div class="admin-card">
+      <div class="admin-form-grid">
+        <div class="admin-form-group full"><label>About Title (use &lt;br&gt; for line breaks)</label><input type="text" id="a-about-title" placeholder="Builder by instinct,&lt;br&gt;engineer by training."></div>
+        <div class="admin-form-group full"><label>About Paragraph 1 (plain text — bold tags OK)</label><textarea id="a-about-p1" rows="3"></textarea></div>
+        <div class="admin-form-group full"><label>About Paragraph 2</label><textarea id="a-about-p2" rows="3"></textarea></div>
+        <div class="admin-form-group full"><label>About Paragraph 3</label><textarea id="a-about-p3" rows="2"></textarea></div>
+      </div>
+      <div class="admin-divider"></div>
+      <div class="admin-form-grid">
+        <div class="admin-form-group"><label>Stat 1 — Number</label><input type="text" id="a-s1n" placeholder="3.48"></div>
+        <div class="admin-form-group"><label>Stat 1 — Label</label><input type="text" id="a-s1l" placeholder="Cumulative GPA"></div>
+        <div class="admin-form-group"><label>Stat 2 — Number</label><input type="text" id="a-s2n" placeholder="ME"></div>
+        <div class="admin-form-group"><label>Stat 2 — Label</label><input type="text" id="a-s2l" placeholder="B.S. Major"></div>
+        <div class="admin-form-group"><label>Stat 3 — Number</label><input type="text" id="a-s3n" placeholder="EI"></div>
+        <div class="admin-form-group"><label>Stat 3 — Label</label><input type="text" id="a-s3l" placeholder="Innovation Minor"></div>
+        <div class="admin-form-group"><label>Stat 4 — Number</label><input type="text" id="a-s4n" placeholder="7×"></div>
+        <div class="admin-form-group"><label>Stat 4 — Label</label><input type="text" id="a-s4l" placeholder="Dean's List"></div>
+      </div>
+      <div class="admin-actions-row"><button class="btn-save" onclick="saveAbout()">Save About</button></div>
+    </div>
+
+    <!-- Goals -->
+    <div class="admin-section-label">Goals Section</div>
+    <div class="admin-card">
+      <div class="admin-form-grid">
+        <div class="admin-form-group"><label>Short-term Goal Title</label><input type="text" id="a-g1t" placeholder="Land a Full-Time Engineering Role"></div>
+        <div class="admin-form-group full"><label>Short-term Goal Text</label><textarea id="a-g1p" rows="3"></textarea></div>
+        <div class="admin-form-group"><label>Long-term Goal Title</label><input type="text" id="a-g2t" placeholder="Build Products Worth Building"></div>
+        <div class="admin-form-group full"><label>Long-term Goal Text</label><textarea id="a-g2p" rows="3"></textarea></div>
+      </div>
+      <div class="admin-actions-row"><button class="btn-save" onclick="saveGoals()">Save Goals</button></div>
+    </div>
+
+    <!-- Contact -->
+    <div class="admin-section-label">Contact Section</div>
+    <div class="admin-card">
+      <div class="admin-form-grid">
+        <div class="admin-form-group full"><label>Contact Title</label><input type="text" id="a-ct" placeholder="Open to opportunities."></div>
+        <div class="admin-form-group full"><label>Contact Body Text</label><textarea id="a-cp" rows="3"></textarea></div>
+        <div class="admin-form-group"><label>Email Address</label><input type="email" id="a-email" placeholder="you@email.com"></div>
+        <div class="admin-form-group"><label>LinkedIn URL (contact button)</label><input type="url" id="a-clink" placeholder="https://www.linkedin.com/in/..."></div>
+      </div>
+      <div class="admin-actions-row"><button class="btn-save" onclick="saveContact()">Save Contact</button></div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const STORE_KEY = 'zafir_index_v1';
+function getStore() { try { return JSON.parse(localStorage.getItem(STORE_KEY)) || {}; } catch { return {}; } }
+function setStore(data) { localStorage.setItem(STORE_KEY, JSON.stringify(data)); }
+
+// ── APPLY STORED DATA ──
+function applyStore() {
+  const s = getStore();
+  const set = (id, val) => { const el = document.getElementById(id); if (el && val !== undefined) el.innerHTML = val; };
+  const setHref = (id, val) => { const el = document.getElementById(id); if (el && val) el.href = val; };
+  const setTxt = (id, val) => { const el = document.getElementById(id); if (el && val !== undefined) el.textContent = val; };
+
+  if (s.heroTag) setTxt('d-hero-tag', s.heroTag);
+  if (s.heroH1) set('d-hero-h1', s.heroH1);
+  if (s.heroSub) setTxt('d-hero-sub', s.heroSub);
+  if (s.linkedin) { setHref('d-linkedin-btn', s.linkedin); setHref('d-contact-linkedin', s.linkedin); }
+  if (s.aboutTitle) set('d-about-title', s.aboutTitle);
+  if (s.aboutP1) set('d-about-p1', s.aboutP1);
+  if (s.aboutP2) set('d-about-p2', s.aboutP2);
+  if (s.aboutP3) set('d-about-p3', s.aboutP3);
+  ['s1n','s1l','s2n','s2l','s3n','s3l','s4n','s4l'].forEach(k => { if (s[k]) setTxt('d-stat' + k.slice(0,2).replace('s','') + (k.endsWith('n') ? '-num' : '-label'), s[k]); });
+  if (s.goal1Title) setTxt('d-goal1-title', s.goal1Title);
+  if (s.goal1Text) setTxt('d-goal1-text', s.goal1Text);
+  if (s.goal2Title) setTxt('d-goal2-title', s.goal2Title);
+  if (s.goal2Text) setTxt('d-goal2-text', s.goal2Text);
+  if (s.contactTitle) setTxt('d-contact-title', s.contactTitle);
+  if (s.contactText) setTxt('d-contact-text', s.contactText);
+  if (s.email) { const el = document.getElementById('d-contact-email'); if (el) el.href = 'mailto:' + s.email; }
+}
+
+// ── FILL ADMIN FORMS ──
+function fillAdminForms() {
+  const s = getStore();
+  const setVal = (id, val) => { const el = document.getElementById(id); if (el && val !== undefined) el.value = val; };
+  setVal('a-hero-tag', s.heroTag || '');
+  setVal('a-hero-h1', s.heroH1Raw || '');
+  setVal('a-hero-sub', s.heroSub || '');
+  setVal('a-linkedin', s.linkedin || '');
+  setVal('a-about-title', s.aboutTitleRaw || '');
+  setVal('a-about-p1', s.aboutP1Raw || '');
+  setVal('a-about-p2', s.aboutP2Raw || '');
+  setVal('a-about-p3', s.aboutP3Raw || '');
+  ['1n','1l','2n','2l','3n','3l','4n','4l'].forEach(k => setVal('a-s'+k, s['s'+k] || ''));
+  setVal('a-g1t', s.goal1Title || ''); setVal('a-g1p', s.goal1Text || '');
+  setVal('a-g2t', s.goal2Title || ''); setVal('a-g2p', s.goal2Text || '');
+  setVal('a-ct', s.contactTitle || ''); setVal('a-cp', s.contactText || '');
+  setVal('a-email', s.email || ''); setVal('a-clink', s.linkedin || '');
+}
+
+function toggleAdmin() {
+  const panel = document.getElementById('adminPanel');
+  const open = panel.classList.toggle('open');
+  document.body.style.overflow = open ? 'hidden' : '';
+  if (open) fillAdminForms();
+}
+
+// ── SAVE SECTIONS ──
+function saveHero() {
+  const s = getStore();
+  const raw = document.getElementById('a-hero-h1').value;
+  s.heroTag = document.getElementById('a-hero-tag').value;
+  s.heroH1Raw = raw;
+  s.heroH1 = raw.replace(/\n/g, '<br>');
+  s.heroSub = document.getElementById('a-hero-sub').value;
+  s.linkedin = document.getElementById('a-linkedin').value;
+  setStore(s); applyStore(); toast('Hero saved ✓');
+}
+function saveAbout() {
+  const s = getStore();
+  const atRaw = document.getElementById('a-about-title').value;
+  s.aboutTitleRaw = atRaw;
+  s.aboutTitle = atRaw;
+  s.aboutP1Raw = document.getElementById('a-about-p1').value;
+  s.aboutP2Raw = document.getElementById('a-about-p2').value;
+  s.aboutP3Raw = document.getElementById('a-about-p3').value;
+  s.aboutP1 = s.aboutP1Raw; s.aboutP2 = s.aboutP2Raw; s.aboutP3 = s.aboutP3Raw;
+  ['1n','1l','2n','2l','3n','3l','4n','4l'].forEach(k => { s['s'+k] = document.getElementById('a-s'+k).value; });
+  setStore(s); applyStore(); toast('About saved ✓');
+}
+function saveGoals() {
+  const s = getStore();
+  s.goal1Title = document.getElementById('a-g1t').value;
+  s.goal1Text = document.getElementById('a-g1p').value;
+  s.goal2Title = document.getElementById('a-g2t').value;
+  s.goal2Text = document.getElementById('a-g2p').value;
+  setStore(s); applyStore(); toast('Goals saved ✓');
+}
+function saveContact() {
+  const s = getStore();
+  s.contactTitle = document.getElementById('a-ct').value;
+  s.contactText = document.getElementById('a-cp').value;
+  s.email = document.getElementById('a-email').value;
+  const clink = document.getElementById('a-clink').value;
+  if (clink) s.linkedin = clink;
+  setStore(s); applyStore(); toast('Contact saved ✓');
+}
+
+let toastTimer;
+function toast(msg) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.classList.remove('show'), 2400);
+}
+
+// ── REVEAL ──
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach((entry, i) => {
+    if (entry.isIntersecting) {
+      const el = entry.target;
+      const siblings = [...el.parentElement.querySelectorAll('.reveal')];
+      const idx = siblings.indexOf(el);
+      setTimeout(() => { el.classList.add('visible'); }, idx * 80);
+      observer.unobserve(el);
+    }
+  });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// ── INIT ──
+applyStore();
 </script>
 </body>
 </html>
