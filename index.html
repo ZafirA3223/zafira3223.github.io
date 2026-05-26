@@ -59,6 +59,8 @@ nav {
 .nav-links { display: flex; gap: 2.5rem; list-style: none; }
 .nav-links a { font-size: 0.8rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color 0.2s; }
 .nav-links a:hover { color: var(--text); }
+.nav-links a.nav-files { color: var(--accent3); opacity: 0.8; }
+.nav-links a.nav-files:hover { opacity: 1; color: var(--accent3); }
 .hero {
   min-height: 100vh;
   display: flex;
@@ -83,6 +85,8 @@ nav {
 .btn-primary:hover { background: #d4b87a; transform: translateY(-1px); }
 .btn-outline { background: transparent; color: var(--text); border: 1px solid var(--border-hover); }
 .btn-outline:hover { border-color: var(--text); background: rgba(255,255,255,0.04); }
+.btn-teal { background: transparent; color: var(--accent3); border: 1px solid rgba(110,200,169,0.35); }
+.btn-teal:hover { border-color: var(--accent3); background: rgba(110,200,169,0.06); }
 section { padding: 7rem 3rem; max-width: 1100px; margin: 0 auto; position: relative; z-index: 1; }
 .section-label { font-size: 0.72rem; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); margin-bottom: 1rem; }
 .section-title { font-family: var(--serif); font-size: clamp(2rem, 4vw, 3.2rem); line-height: 1.1; letter-spacing: -0.02em; margin-bottom: 3rem; }
@@ -132,6 +136,25 @@ footer a { color: var(--muted); text-decoration: none; }
 footer a:hover { color: var(--text); }
 .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
 .reveal.visible { opacity: 1; transform: none; }
+
+/* Academic files banner */
+.files-banner {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 1.5rem; flex-wrap: wrap;
+  margin-top: 3rem; padding: 1.25rem 1.75rem;
+  border: 1px solid rgba(110,200,169,0.2);
+  border-radius: 10px;
+  background: rgba(110,200,169,0.04);
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+.files-banner:hover { border-color: rgba(110,200,169,0.45); background: rgba(110,200,169,0.08); }
+.files-banner-left { display: flex; align-items: center; gap: 1rem; }
+.files-banner-icon { font-size: 1.4rem; flex-shrink: 0; }
+.files-banner-text strong { display: block; font-size: 0.9rem; font-weight: 600; color: var(--text); margin-bottom: 0.15rem; }
+.files-banner-text span { font-size: 0.78rem; color: var(--muted); }
+.files-banner-cta { font-family: var(--mono); font-size: 0.72rem; color: var(--accent3); letter-spacing: 0.06em; white-space: nowrap; }
+
 @media (max-width: 768px) {
   nav { padding: 1rem 1.5rem; }
   .nav-links { gap: 1.5rem; }
@@ -155,6 +178,7 @@ footer a:hover { color: var(--text); }
     <li><a href="#about">About</a></li>
     <li><a href="#skills">Skills</a></li>
     <li><a href="zafir-projects.html">Projects</a></li>
+    <li><a href="academic_files_browser.html" class="nav-files">Academic Files</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
 </nav>
@@ -285,9 +309,22 @@ footer a:hover { color: var(--text); }
     </div>
   </div>
   <p style="font-size:0.82rem;color:var(--muted);margin-top:1.5rem;text-align:center;font-style:italic;">More detailed project descriptions — reach out or connect on LinkedIn.</p>
-  <div style="text-align:center;margin-top:2rem;">
+  <div style="text-align:center;margin-top:2rem;display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
     <a href="zafir-projects.html" class="btn btn-outline">View Full CAD Portfolio →</a>
+    <a href="academic_files_browser.html" class="btn btn-teal">Browse Academic Files ↗</a>
   </div>
+
+  <!-- Academic files banner -->
+  <a href="academic_files_browser.html" class="files-banner reveal" style="margin-top:2.5rem;">
+    <div class="files-banner-left">
+      <div class="files-banner-icon">🗂️</div>
+      <div class="files-banner-text">
+        <strong>Academic Files Browser</strong>
+        <span>680 files across 9 semesters and 29 courses — organized and searchable.</span>
+      </div>
+    </div>
+    <div class="files-banner-cta">Browse files →</div>
+  </a>
 </section>
 
 <div class="divider"></div>
@@ -327,7 +364,8 @@ footer a:hover { color: var(--text); }
 
 <footer>
   <p>© 2026 Zafir Ali · B.S. Mechanical Engineering @ NJIT · Minor in Engineering Innovation ·
-    <a href="https://www.linkedin.com/in/zafirali/" target="_blank">LinkedIn</a>
+    <a href="https://www.linkedin.com/in/zafirali/" target="_blank">LinkedIn</a> ·
+    <a href="academic_files_browser.html">Academic Files</a>
   </p>
 </footer>
 
