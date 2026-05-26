@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Academic Files</title>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Syne:wght@400;600;700;800&family=DM+Mono:wght@400;500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -83,11 +83,26 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);min-height:1
 .modal-note{font-size:.78rem;color:var(--muted);line-height:1.6}
 code{background:var(--surface2);padding:1px 5px;border-radius:3px;font-family:var(--mono);font-size:.75em}
 @media(max-width:680px){.layout{grid-template-columns:1fr}.sidebar{display:none}.header,.search-wrap,.filter-strip{padding-left:1rem;padding-right:1rem}.main{padding:1rem}}
+
+.home-btn{display:inline-flex;align-items:center;gap:.45rem;padding:.35rem .85rem;border-radius:6px;border:1px solid rgba(255,255,255,0.12);background:transparent;color:rgba(240,237,232,0.55);font-family:'DM Mono',monospace;font-size:.72rem;letter-spacing:.04em;text-decoration:none;transition:all .18s;flex-shrink:0}
+.home-btn:hover{color:#f0ede8;border-color:rgba(255,255,255,0.28);background:rgba(255,255,255,0.04)}
+.home-btn svg{opacity:.7}
+.home-btn:hover svg{opacity:1}
+.nav-logo-text{font-family:'DM Serif Display',serif;font-size:1.15rem;letter-spacing:-.02em;color:#f0ede8;line-height:1}
+.nav-logo-text span{color:#c8a96e}
+.nav-divider{width:1px;height:18px;background:rgba(255,255,255,0.12);flex-shrink:0}
+.page-label{font-family:'DM Mono',monospace;font-size:.7rem;color:var(--muted);letter-spacing:.06em}
 </style>
 </head>
 <body>
 <header class="header">
-  <div class="logo">Za239 <span>/ Academic Files</span></div>
+  <a href="index.html" class="home-btn">
+    <svg width="13" height="13" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 6.5L6.5 2L11 6.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M6.5 2v9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+    Home
+  </a>
+  <div class="nav-divider"></div>
+  <span class="nav-logo-text">Z<span>.</span>Ali</span>
+  <span class="page-label">/ Academic Files</span>
   <div class="stats-row"><div class="stat"><b id="sf">680</b> files</div><div class="stat"><b>9</b> semesters</div><div class="stat"><b>29</b> courses</div></div>
 </header>
 <div class="search-wrap"><span class="search-icon">&#9906;</span><input id="search" type="search" placeholder="Search files, courses, assignments..." autocomplete="off"></div>
